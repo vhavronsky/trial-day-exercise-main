@@ -1,13 +1,21 @@
-import { Controller, Get } from '@nestjs/common';
-import { MembersService } from './members.service';
+import { Controller, Get, Query } from "@nestjs/common";
+import { MembersService } from "./members.service";
+import { GetMembersDto } from "./dto/get-members.dto";
+import { PaginatedMembersResponse } from "./dto/member-response.dto";
 
-@Controller('members')
+@Controller("members")
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}
 
-  @Get('count')
-  async getMemberCount(): Promise<{ count: number }> {
-    const count = await this.membersService.getMemberCount();
-    return { count };
+  @Get()
+  async getMembers(
+    @Query() query: GetMembersDto
+  ): Promise<PaginatedMembersResponse> {
+    return this.membersService.getMembers(query);
+  }
+
+  @Get("roles")
+  async getRoles(): Promise<string[]> {
+    return this.membersService.getAllRoles();
   }
 }
