@@ -18,4 +18,10 @@ export class MembersController {
   async getRoles(): Promise<string[]> {
     return this.membersService.getAllRoles();
   }
+
+  @Get("count")
+  async getTotalCount(): Promise<{ total: number }> {
+    const total = await this.membersService.getTotalCount();
+    return { total };
+  }
 }

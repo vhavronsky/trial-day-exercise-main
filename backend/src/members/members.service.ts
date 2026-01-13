@@ -64,6 +64,16 @@ export class MembersService {
     return roles.map((r) => r.role);
   }
 
+  async getTotalCount(): Promise<number> {
+    return this.prisma.user.count({
+      where: {
+        memberships: {
+          some: {},
+        },
+      },
+    });
+  }
+
   private buildWhereClause(query: GetMembersDto): Prisma.UserWhereInput {
     const conditions: Prisma.UserWhereInput[] = [];
 
