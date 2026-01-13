@@ -135,16 +135,12 @@ export function MembersTable({ filters, onFiltersChange }: MembersTableProps) {
       newFilters.limit = pagination.pageSize;
     }
 
-    // Handle sorting
-    if (singleSorter?.columnKey) {
-      if (singleSorter.order) {
-        newFilters.sortBy = singleSorter.columnKey as SortField;
-        newFilters.sortOrder = singleSorter.order === "ascend" ? "asc" : "desc";
-      } else {
-        // Sorting cleared
-        newFilters.sortBy = undefined;
-        newFilters.sortOrder = undefined;
-      }
+    if (singleSorter?.order) {
+      newFilters.sortBy = singleSorter.columnKey as SortField;
+      newFilters.sortOrder = singleSorter.order === "ascend" ? "asc" : "desc";
+    } else {
+      (newFilters as Record<string, unknown>).sortBy = "";
+      (newFilters as Record<string, unknown>).sortOrder = "";
     }
 
     onFiltersChange(newFilters);
